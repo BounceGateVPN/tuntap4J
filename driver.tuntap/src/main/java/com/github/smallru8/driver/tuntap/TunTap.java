@@ -31,10 +31,12 @@ public class TunTap {
 		String path=file.getAbsolutePath();
 		System.out.println(path);
 		
+		String ver = System.getProperty("sun.arch.data.model");//32 or 64
+		
 		if(osName.indexOf("Windows") != -1||osName.indexOf("windows") != -1) {//windows
-			System.load(path.substring(0,path.length() - 1)+"TunTapJNI.dll");
+			System.load(path.substring(0,path.length() - 1)+"TunTapJNI"+ver+".dll");
 		}else {//linux
-			System.load(path.substring(0,path.length() - 1)+"TunTapJNI.so");
+			System.load(path.substring(0,path.length() - 1)+"TunTapJNI"+ver+".so");
 		}
 	}
 	public TunTap() {
