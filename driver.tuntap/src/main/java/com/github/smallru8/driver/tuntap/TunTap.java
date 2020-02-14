@@ -1,6 +1,7 @@
 package com.github.smallru8.driver.tuntap;
 
 import java.io.File;
+import java.util.Properties;
 
 public class TunTap {
 	public native void tuntap_init();
@@ -27,16 +28,17 @@ public class TunTap {
 	public native int tuntap_get_fd();
 	private static String osName = System.getProperties().getProperty("os.name");
 	static {
-		File file=new File(".");
+		String ver = System.getProperty("sun.arch.data.model");//32 or 64
+		
+		File file=new File("lib"+ver);//lib32 lib64
 		String path=file.getAbsolutePath();
 		System.out.println(path);
 		
-		String ver = System.getProperty("sun.arch.data.model");//32 or 64
-		
 		if(osName.indexOf("Windows") != -1||osName.indexOf("windows") != -1) {//windows
-			System.load(path.substring(0,path.length() - 1)+"TunTapJNI"+ver+".dll");
+			//System.load(path+"\\TunTapJNI.dll");
+			System.load(path+"\\TunTapJNI.dll");
 		}else {//linux
-			System.load(path.substring(0,path.length() - 1)+"TunTapJNI"+ver+".so");
+			System.load(path+"/TunTapJNI.so");
 		}
 	}
 	public TunTap() {
