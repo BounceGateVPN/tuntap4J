@@ -31,21 +31,22 @@ public class App
         		Thread.sleep(1000);
         		continue;
         	}
-        	
-        	System.out.println(packet.getDesIPaddress());
-        	
-        	System.out.println(packet.getSrcIPaddress());
+        	int desAddr = packet.getDesIPaddress();
+        	int srcAddr = packet.getSrcIPaddress();
+        	System.out.println(desAddr);
+        	System.out.println(srcAddr);
         	
         	System.out.println("Recv : " + buffer.length);
-        	/*for(int i=12;i<16;i++)
-        		ip[i-12] = buffer[i];
-        	for(int i=16;i<20;i++)
-        		buffer[i-4] = buffer[i];
-        	for(int i=16;i<20;i++)
-        		buffer[i] = ip[i-16];
-        	buffer[20] = 0;
-        	buffer[22]+=8;*/
-        	//System.out.println("Send : " + tt.tuntap_write(buffer,buffer.length));
+        	if(packet.packetType()==0x00) {
+	        	packet.setDesIPaddress((byte)(srcAddr>>24), (byte)(srcAddr>>16), (byte)(srcAddr>>8), (byte)srcAddr);
+	        	packet.setSrcIPaddress((byte)(desAddr>>24), (byte)(desAddr>>16), (byte)(desAddr>>8), (byte)desAddr);
+	        	byte[] srcMAC = packet.getFrameSrcMACAddr();
+	        	byte[] desMAC = packet.getFrameDesMACAddr();
+	        	packet.setFrameDesMACAddr(srcMAC);
+	        	packet.setFrameSrcMACAddr(desMAC);
+	        	buffer = packet.getFramePacket();
+	        	//System.out.println("Send : " + tt.tuntap_write(buffer,buffer.length));
+        	}
         }
     }
 }

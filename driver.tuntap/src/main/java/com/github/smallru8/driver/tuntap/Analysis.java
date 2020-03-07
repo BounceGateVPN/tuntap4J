@@ -186,6 +186,12 @@ public class Analysis {
 		return addr;
 	}
 	
+	public void setFrameDesMACAddr(byte[] addr) {
+		for(int i=0;i<6;i++) {
+			packet[i] = addr[i];
+		}
+	}
+	
 	/**
 	 * Get source MAC address.
 	 * @return
@@ -196,6 +202,12 @@ public class Analysis {
 			addr[i-6] = packet[i];
 		}
 		return addr;
+	}
+	
+	public void setFrameSrcMACAddr(byte[] addr) {
+		for(int i=6;i<12;i++) {
+			packet[i] = addr[i-6];
+		}
 	}
 	
 }
