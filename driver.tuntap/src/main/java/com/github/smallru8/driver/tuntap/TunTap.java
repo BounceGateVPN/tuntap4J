@@ -1,7 +1,6 @@
 package com.github.smallru8.driver.tuntap;
 
 import java.io.File;
-import java.util.Properties;
 
 public class TunTap {
 	public native void tuntap_init();

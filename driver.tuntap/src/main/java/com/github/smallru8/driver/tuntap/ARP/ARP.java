@@ -166,10 +166,27 @@ public class ARP extends TimerTask{
 		return packet;
 	}
 	
-	public void addARPtable(byte[] framePacket) {//
-		
+	public void addARPtable(byte[] framePacket) {
+		if(framePacket[12]==0x08&&framePacket[13]==0x06&&framePacket[21]==0x02) {//為ARP reply
+			int IPAddr = (framePacket[28]&0xFF)<<24|(framePacket[29]&0xFF)<<16|(framePacket[30]&0xFF)<<8|(framePacket[31]&0xFF);
+			byte[] MACAddr = new byte[6];
+			for(int i=22;i<28;i++)
+				MACAddr[i-22] = framePacket[i];
+			ARPTable tmpTable = new ARPTable(IPAddr,MACAddr);
+			Iterator<ARPTable> it = table.iterator();
+			while(it.hasNext()) {//檢查重複 並更新
+				if(it.next().IPAddr==IPAddr) {
+					it.remove();
+					break;
+				}
+			}
+			table.add(tmpTable);
+		}
 	}
 	
+	/**
+	 * 定時刪除過久未使用ARP
+	 */
 	private void TTLCounter() {
 		Iterator<ARPTable> it = table.iterator();
 		while(it.hasNext()) {

@@ -24,7 +24,7 @@ public class App
 			e.printStackTrace();
 		}
         while(true) {
-        	byte[] ip = new byte[4];
+        	//byte[] ip = new byte[4];
         	byte[] buffer = tt.tuntap_read(512);
         	packet.setFramePacket(buffer);
         	if(buffer.length==0) {
