@@ -166,6 +166,10 @@ public class ARP extends TimerTask{
 		return packet;
 	}
 	
+	/**
+	 * 傳入ARP reply packet 將結果更新到ARP table
+	 * @param framePacket
+	 */
 	public void addARPtable(byte[] framePacket) {
 		if(framePacket[12]==0x08&&framePacket[13]==0x06&&framePacket[21]==0x02) {//為ARP reply
 			int IPAddr = (framePacket[28]&0xFF)<<24|(framePacket[29]&0xFF)<<16|(framePacket[30]&0xFF)<<8|(framePacket[31]&0xFF);
