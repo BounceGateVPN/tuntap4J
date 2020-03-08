@@ -98,9 +98,72 @@ public class ARP extends TimerTask{
 		return packet;
 	}
 	
-	public byte[] generateARPreplyPacket(int srcIPAddr,byte[] srcMACAddr,int desIPAddr,byte[] desMACAddr) {//
+	/**
+	 * generate a ARP reply packet
+	 * @param srcIPAddr
+	 * @param srcMACAddr
+	 * @param desIPAddr
+	 * @param desMACAddr
+	 * @return
+	 */
+	public byte[] generateARPreplyPacket(int srcIPAddr,byte[] srcMACAddr,int desIPAddr,byte[] desMACAddr) {
+		byte[] packet = new byte[60];
 		
-		return null;
+		//des MAC addr desMACAddr
+		for(int i=0;i<6;i++)
+			packet[i] = desMACAddr[i];
+		
+		//src MAC addr srcMACAddr
+		for(int i=0;i<6;i++)
+			packet[i+6] = srcMACAddr[i];
+		
+		//Type = ARP
+		packet[12] = 0x08;
+		packet[13] = 0x06;
+		
+		//Hardware type = Ethernet
+		packet[14] = 0x00;
+		packet[15] = 0x01;
+		
+		//Protocol type = IPv4
+		packet[16] = 0x08;
+		packet[17] = 0x00;
+		
+		//Hardware size = 6
+		packet[18] = 0x06;
+		
+		//Protocol size = 4
+		packet[19] = 0x04;
+		
+		//Opcode = 2
+		packet[20] = 0x00;
+		packet[21] = 0x02;
+		
+		//src MAC address = srcMACAddr
+		for(int i=0;i<6;i++)
+			packet[i+22] = srcMACAddr[i];
+		
+		//src IP address = srcIPAddr
+		packet[28] = (byte) ((srcIPAddr>>24)&0xFF);
+		packet[29] = (byte) ((srcIPAddr>>16)&0xFF);
+		packet[30] = (byte) ((srcIPAddr>>8)&0xFF);
+		packet[31] = (byte) (srcIPAddr&0xFF);
+		
+		//des MAC address = desMACAddr
+		for(int i=32;i<38;i++)
+			packet[i] = desMACAddr[i-32];
+		
+		//des IP address = desIPAddr
+		packet[38] = (byte) ((desIPAddr>>24)&0xFF);
+		packet[39] = (byte) ((desIPAddr>>16)&0xFF);
+		packet[40] = (byte) ((desIPAddr>>8)&0xFF);
+		packet[41] = (byte) (desIPAddr&0xFF);
+		
+		//Padding
+		for(int i=42;i<60;i++)
+			packet[i] = 0x00;
+		
+		return packet;
 	}
 	
 	public void addARPtable(byte[] framePacket) {//
