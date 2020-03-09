@@ -15,6 +15,8 @@ public class App
         TunTap tt = new TunTap();
         System.out.println(tt.tuntap_set_ip("192.168.87.2", 24));
         tt.tuntap_up();
+        byte[] mac = tt.tuntap_get_hwaddr();
+        System.out.println(Integer.toHexString(mac[0]&0xFF)+ "-"+Integer.toHexString(mac[1]& 0xFF)+ "-"+Integer.toHexString(mac[2]& 0xFF)+ "-"+Integer.toHexString(mac[3]& 0xFF)+ "-"+Integer.toHexString(mac[4]& 0xFF)+ "-"+Integer.toHexString(mac[5]& 0xFF));
         try {
         	System.out.println("fd:"+tt.tuntap_get_fd());
         	System.out.println("press any key to continue...");
@@ -37,7 +39,7 @@ public class App
         	System.out.println(srcAddr);
         	
         	System.out.println("Recv : " + buffer.length);
-        	if(packet.packetType()==0x00) {
+        	/*if(packet.packetType()==0x00) {
 	        	packet.setDesIPaddress((byte)(srcAddr>>24), (byte)(srcAddr>>16), (byte)(srcAddr>>8), (byte)srcAddr);
 	        	packet.setSrcIPaddress((byte)(desAddr>>24), (byte)(desAddr>>16), (byte)(desAddr>>8), (byte)desAddr);
 	        	byte[] srcMAC = packet.getFrameSrcMACAddr();
@@ -46,7 +48,7 @@ public class App
 	        	packet.setFrameSrcMACAddr(desMAC);
 	        	buffer = packet.getFramePacket();
 	        	//System.out.println("Send : " + tt.tuntap_write(buffer,buffer.length));
-        	}
+        	}*/
         }
     }
 }

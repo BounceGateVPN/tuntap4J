@@ -10,7 +10,7 @@ public class TunTap {
 	public native int tuntap_start(int mode,int unit);//0x0001 257
 	public native String tuntap_get_ifname();
 	public native int tuntap_set_ifname(String ifname);
-	public native String tuntap_get_hwaddr();
+	public native byte[] tuntap_get_hwaddr();
 	public native int tuntap_set_hwaddr(String hwaddr);
 	public native int tuntap_set_descr(String descr);
 	public native String tuntap_get_descr();
