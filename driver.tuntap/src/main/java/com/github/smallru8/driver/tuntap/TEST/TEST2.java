@@ -11,11 +11,11 @@ import com.github.smallru8.driver.tuntap.TapDevice;
 public class TEST2 {
 	public static void main( String[] args ) throws InterruptedException, IOException
     {
-		TapDevice td = new TapDevice();
-		td.startEthernetDev();
+		TapDevice td = new TapDevice();//建立tap跟ARP table
+		td.startEthernetDev();//初始化
 		while(true) {
-			byte[] buffer = td.read(512);
-			if(buffer==null) {
+			byte[] buffer = td.read(512);//讀
+			if(buffer==null) {//若為ARP packet回傳NULL 
 				continue;
 			}
 			if(buffer.length==0) {
