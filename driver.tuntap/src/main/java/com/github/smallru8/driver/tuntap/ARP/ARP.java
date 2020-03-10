@@ -34,6 +34,7 @@ public class ARP extends TimerTask{
 	 * @throws SocketException
 	 */
 	public void setARP(byte[] MACAddr) throws SocketException {
+		this.MACAddr = MACAddr;
 		Enumeration<NetworkInterface> nifs = NetworkInterface.getNetworkInterfaces();
 		while (nifs.hasMoreElements()) {
 			NetworkInterface nif = nifs.nextElement();

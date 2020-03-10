@@ -38,6 +38,7 @@ public class TapDevice {
 		Analysis analyzer = new Analysis();
 		analyzer.setFramePacket(data);
 		if(analyzer.packetType()==0x06) {//ARP
+			System.out.println("getARP");
 			byte[] data_send = arp.arpAnalyzer(data);
 			if(data_send!=null)
 				write(data_send);	

@@ -29,10 +29,12 @@ public class TEST1 {
         		Thread.sleep(1000);
         		continue;
         	}
+        	/*
         	int desAddr = packet.getDesIPaddress();
         	int srcAddr = packet.getSrcIPaddress();
         	System.out.println(desAddr);
         	System.out.println(srcAddr);
+        	*/
         	
         	System.out.println("Recv : " + buffer.length);
         	/*if(packet.packetType()==0x00) {
