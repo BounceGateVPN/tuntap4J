@@ -32,7 +32,7 @@ public class TapDevice {
 	 */
 	public byte[] read(int len) {//len = 0為 自動調整大小
 		byte[] data = tap.tuntap_read(len);
-		
+		/*
 		Analysis analyzer = new Analysis();
 		analyzer.setFramePacket(data);
 		if(analyzer.packetType()==0x06) {//ARP
