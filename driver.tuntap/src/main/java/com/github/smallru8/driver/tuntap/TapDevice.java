@@ -26,9 +26,7 @@ public class TapDevice {
 	}
 	
 	/**
-	 * read packet 自動處理ARP packet
-	 * 若為ARP return null
-	 * 若為IPv4 return data
+	 * read packet 
 	 * @param len
 	 * @return
 	 */
@@ -44,7 +42,7 @@ public class TapDevice {
 				write(data_send);	
 			return null;
 		}
-		
+		*/
 		return data;
 	}
 	
@@ -59,7 +57,7 @@ public class TapDevice {
 	
 	/**
 	 * 查ARP紀錄
-	 * 無紀錄自動發 arp request, return null
+	 * 無紀錄 return null
 	 * @param IPAddr
 	 * @return
 	 */
@@ -67,7 +65,7 @@ public class TapDevice {
 		byte[] mac = arp.searchMACbyIP(IPAddr);
 		if(mac!=null)
 			return mac;
-		write(arp.generateARPrequestPacket(arp.IPAddrs.get(0), arp.MACAddr, IPAddr));//發ARP request
+		//write(arp.generateARPrequestPacket(arp.IPAddrs.get(0), arp.MACAddr, IPAddr));//發ARP request
 		return null;
 	}
 }

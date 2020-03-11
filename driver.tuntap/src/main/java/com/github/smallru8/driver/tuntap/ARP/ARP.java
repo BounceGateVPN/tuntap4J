@@ -15,8 +15,6 @@ public class ARP extends TimerTask{
 	private static Timer timer;
 	private ArrayList<ARPTable> table;
 	
-	private NetworkInterface nif;
-	
 	public ArrayList<byte[]> IPAddrs;
 	public byte[] MACAddr;
 	
@@ -50,7 +48,6 @@ public class ARP extends TimerTask{
 						IPAddrs.add(addr.getAddress());
 					}
 				}
-				this.nif = nif;
 				break;
 			}
 		}
@@ -270,8 +267,42 @@ public class ARP extends TimerTask{
 		}
 	}
 	
+	/**
+	 * 更新 ipv4 address
+	 * @throws SocketException
+	 */
+	private void updateIPv4Address() throws SocketException {
+		Enumeration<NetworkInterface> nifs = NetworkInterface.getNetworkInterfaces();
+		ArrayList<byte[]> IPAddrsTMP = new ArrayList<byte[]>();
+		while (nifs.hasMoreElements()) {
+			NetworkInterface nif = nifs.nextElement();
+			byte[] mac = nif.getHardwareAddress();
+			if(Arrays.equals(mac,MACAddr)) {
+				Enumeration<InetAddress> addresses = nif.getInetAddresses();
+				while (addresses.hasMoreElements()) {
+					InetAddress addr = addresses.nextElement();
+					if (addr instanceof Inet4Address) {
+						IPAddrsTMP.add(addr.getAddress());
+					}
+				}
+				if(!IPAddrsTMP.equals(IPAddrs)) {
+					IPAddrs.clear();
+					IPAddrs = IPAddrsTMP;
+				}
+				break;
+			}
+		}
+	}
+	
 	@Override
 	public void run() {
+		try {
+			updateIPv4Address();
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error, while updating ipv4 address.");
+			e.printStackTrace();
+		}
 		TTLCounter();
 	}
 
