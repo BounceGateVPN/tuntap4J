@@ -14,6 +14,12 @@ public class TapDevice {
 		arp = new ARP();
 	}
 	
+	public TapDevice(String ipaddr, int mask) {
+		tap = new TunTap();
+		tap.tuntap_set_ip(ipaddr, mask);
+		arp = new ARP();
+	}
+	
 	public void startEthernetDev() {
 		tap.tuntap_up();
 		
