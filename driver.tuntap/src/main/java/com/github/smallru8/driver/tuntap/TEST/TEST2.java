@@ -15,9 +15,7 @@ public class TEST2 {
 		td.startEthernetDev();//初始化
 		while(true) {
 			byte[] buffer = td.read(512);//讀
-			if(buffer==null) {//若為ARP packet回傳NULL 
-				continue;
-			}
+
 			if(buffer.length==0) {
         		Thread.sleep(1000);
         		continue;

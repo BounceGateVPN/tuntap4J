@@ -1,34 +1,15 @@
 package com.github.smallru8.driver.tuntap;
 
-import java.net.SocketException;
-
-import com.github.smallru8.driver.tuntap.ARP.ARP;
-
 public class TapDevice {
 
-	public static TunTap tap;
-	public static ARP arp;
+	public TunTap tap;
 	
 	public TapDevice() {
 		tap = new TunTap();
-		arp = new ARP();
-	}
-	
-	public TapDevice(String ipaddr, int mask) {
-		tap = new TunTap();
-		tap.tuntap_set_ip(ipaddr, mask);
-		arp = new ARP();
 	}
 	
 	public void startEthernetDev() {
 		tap.tuntap_up();
-		
-		try {//初始化ARP table
-			arp.setARP(tap.tuntap_get_hwaddr());
-		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	/**
@@ -37,19 +18,10 @@ public class TapDevice {
 	 * @return
 	 */
 	public byte[] read(int len) {//len = 0為 自動調整大小
-		byte[] data = tap.tuntap_read(len);
-		/*
-		Analysis analyzer = new Analysis();
-		analyzer.setFramePacket(data);
-		if(analyzer.packetType()==0x06) {//ARP
-			System.out.println("getARP");
-			byte[] data_send = arp.arpAnalyzer(data);
-			if(data_send!=null)
-				write(data_send);	
-			return null;
-		}
-		*/
-		return data;
+		if(TunTap.osType)//windows
+			return tap.tuntap_readWIN();
+		else//linux
+			return tap.tuntap_read(len);
 	}
 	
 	/**
@@ -58,20 +30,20 @@ public class TapDevice {
 	 * @return
 	 */
 	public int write(byte[] data) {
-		return tap.tuntap_write(data, data.length);
+		if(TunTap.osType)//windows
+			return tap.tuntap_writeWIN(data);
+		else//linux
+			return tap.tuntap_write(data, data.length);
 	}
 	
 	/**
-	 * 查ARP紀錄
-	 * 無紀錄 return null
-	 * @param IPAddr
+	 * 是否可讀
 	 * @return
 	 */
-	public byte[] getMACbyIP(byte[] IPAddr) {
-		byte[] mac = arp.searchMACbyIP(IPAddr);
-		if(mac!=null)
-			return mac;
-		//write(arp.generateARPrequestPacket(arp.IPAddrs.get(0), arp.MACAddr, IPAddr));//發ARP request
-		return null;
+	public boolean readable() {
+		if(TunTap.osType)//windows
+			return tap.readable();
+		else//linux
+			return tap.tuntap_get_readable()>0;
 	}
 }

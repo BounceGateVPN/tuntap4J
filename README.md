@@ -1,5 +1,6 @@
-# tuntap4J v1.2
+# tuntap4J v2.0
 Tuntap java interface. 
+EventLoop ver.
 
-2020-03-04 v1.1 Add packet Analyzer  
-2020-03-10 v1.2 Add ARP Analyzer
+Windows : read/write method change to use async function.
+ 
