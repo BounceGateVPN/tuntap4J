@@ -43,7 +43,8 @@ public class Analysis {
 		if (headerLen == 24)
 			sum += ((packet[34] & 0xFF) << 8 | (packet[35] & 0xFF)) + ((packet[36] & 0xFF) << 8 | (packet[37] & 0xFF));
 		sum = ((sum & 0x00FF0000) >> 16) + (sum & 0x0000FFFF);
-		if (~sum == getChecksum())
+		sum = (~sum);
+		if ((short)sum == getChecksum())
 			return true;
 		return false;
 	}
@@ -69,6 +70,7 @@ public class Analysis {
 	public byte getPacketHeaderLen() {
 		byte headLen = 0;
 		headLen = (byte) (packet[14] & 0b00001111);
+		headLen *= 4;
 		return headLen;
 	}
 
