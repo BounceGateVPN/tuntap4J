@@ -1,8 +1,12 @@
 package com.github.smallru8.driver.tuntap;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class TunTap {
+	public static boolean osType;//true = windows, false = Unix like
+	
 	public native void tuntap_init();
 	public native int tuntap_version();
 	public native void tuntap_destroy();
@@ -25,18 +29,21 @@ public class TunTap {
 	public native int tuntap_set_nonblocking(int set);
 	public native int tuntap_set_debug(int set);
 	public native int tuntap_get_fd();
+	
+	
 	private static String osName = System.getProperties().getProperty("os.name");
 	static {
 		String ver = System.getProperty("sun.arch.data.model");//32 or 64
 		
 		File file=new File("lib"+ver);//lib32 lib64
 		String path=file.getAbsolutePath();
-		System.out.println(path);
+		System.out.println("Load libs : "+path);
 		
 		if(osName.indexOf("Windows") != -1||osName.indexOf("windows") != -1) {//windows
-			//System.load(path+"\\TunTapJNI.dll");
+			osType = true;
 			System.load(path+"\\TunTapJNI.dll");
 		}else {//linux
+			osType = false;
 			System.load(path+"/TunTapJNI.so");
 		}
 	}
