@@ -11,7 +11,7 @@ package com.github.smallru8.driver.tuntap;
 
 public class Analysis {
 
-	private byte[] packet;
+	protected byte[] packet;
 
 	public Analysis() {
 
