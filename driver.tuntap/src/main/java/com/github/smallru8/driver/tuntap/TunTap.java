@@ -1,8 +1,6 @@
 package com.github.smallru8.driver.tuntap;
 
 import java.io.File;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class TunTap {
 	public static boolean osType;//true = windows, false = Unix like
