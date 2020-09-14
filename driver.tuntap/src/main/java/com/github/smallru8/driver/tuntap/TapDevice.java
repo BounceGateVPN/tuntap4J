@@ -1,6 +1,6 @@
 package com.github.smallru8.driver.tuntap;
 
-import com.github.smallru8.BounceGateVPN.device.Port;
+import com.github.smallru8.util.abstracts.Port;
 
 /**
  * This class is for BGV project
