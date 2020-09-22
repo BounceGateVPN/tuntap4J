@@ -12,7 +12,7 @@ public class Test1 {
 			byte[] buff = tt.tuntap_read(1560);
 			if(buff!=null)
 				System.out.println(buff.length);
-			Thread.sleep(100);
+			//Thread.sleep(100);
 		}
 	}
 	
